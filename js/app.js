@@ -7,7 +7,11 @@ const courses = document.querySelector('#courses-list'),
 eventListeners();
 
 function eventListeners() {
+  //event manager for add course item to shopping cart
   courses.addEventListener('click', addCourseToShopCar);
+
+  //event manager for remove item to shopping cart
+  contentOfShoppingCar.addEventListener('click', removeItemmToShopCar);
 }
 
 //Functions
@@ -60,4 +64,10 @@ function addItemToCar(course) {
 
   //add row to tbody content
   contentOfShoppingCar.appendChild(row);
+}
+
+function removeItemmToShopCar(e) {
+  if (e.target.classList.contains('remove')) {
+    e.target.parentElement.parentElement.remove();
+  }
 }
