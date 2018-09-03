@@ -1,6 +1,7 @@
 //Variables
 const courses = document.querySelector('#courses-list'),
-  contentOfShoppingCar = document.querySelector('#cart-content tbody');
+  contentOfShoppingCar = document.querySelector('#cart-content tbody'),
+  clearCar = document.querySelector('#clear-cart');
 
 //Listeners
 
@@ -12,6 +13,9 @@ function eventListeners() {
 
   //event manager for remove item to shopping cart
   contentOfShoppingCar.addEventListener('click', removeItemmToShopCar);
+
+  //event manager for clear the entire items of shopping cart
+  clearCar.addEventListener('click', clearAllItemShoppingCart);
 }
 
 //Functions
@@ -66,8 +70,16 @@ function addItemToCar(course) {
   contentOfShoppingCar.appendChild(row);
 }
 
+//romeve item click in X in shopping cart
 function removeItemmToShopCar(e) {
   if (e.target.classList.contains('remove')) {
     e.target.parentElement.parentElement.remove();
+  }
+}
+
+// remove all items in shopping cart
+function clearAllItemShoppingCart() {
+  while (contentOfShoppingCar.firstChild) {
+    contentOfShoppingCar.removeChild(contentOfShoppingCar.firstChild);
   }
 }
