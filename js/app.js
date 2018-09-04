@@ -16,6 +16,9 @@ function eventListeners() {
 
   //event manager for clear the entire items of shopping cart
   clearCar.addEventListener('click', clearAllItemShoppingCart);
+
+  //load item from localstorage to shopping cart
+  document.addEventListener('DOMContentLoaded', getItemsFromLS);
 }
 
 //Functions
@@ -46,9 +49,8 @@ function getInfoOfCourse(course) {
   //function for add object into shopping car
   addItemToCar(infoCourse);
 }
-
-// add and render item course in shopping car
-function addItemToCar(course) {
+//render the row
+function renderRow(item) {
   // create <tr>
   const row = document.createElement('tr');
 
@@ -56,18 +58,21 @@ function addItemToCar(course) {
   row.innerHTML = `
     <tr>
       <td>
-        <img src = "${course.image}" width=100>
+        <img src = "${item.image}" width=100>
       </td>
-      <td>${course.title}</td>
-      <td>${course.price}</td>
+      <td>${item.title}</td>
+      <td>${item.price}</td>
       <td>
-        <a href="#" class="remove" data-id="${course.id}">X</a>
+        <a href="#" class="remove" data-id="${item.id}">X</a>
       </td>
     </tr>
   `;
-
+  return row;
+}
+// add and render item course in shopping car
+function addItemToCar(course) {
   //add row to tbody content
-  contentOfShoppingCar.appendChild(row);
+  contentOfShoppingCar.appendChild(renderRow(course));
 
   //add item in localstorage
   addItemInLocalStorage(course);
@@ -106,4 +111,13 @@ function getItemFromLocalStorage() {
     courses = JSON.parse(localStorage.getItem('courses'));
   }
   return courses;
+}
+
+//load items from localstorage to shopping cart
+function getItemsFromLS() {
+  let coursesLS = getItemFromLocalStorage();
+
+  coursesLS.forEach(course => {
+    contentOfShoppingCar.appendChild(renderRow(course));
+  });
 }
