@@ -68,6 +68,9 @@ function addItemToCar(course) {
 
   //add row to tbody content
   contentOfShoppingCar.appendChild(row);
+
+  //add item in localstorage
+  addItemInLocalStorage(course);
 }
 
 //romeve item click in X in shopping cart
@@ -82,4 +85,25 @@ function clearAllItemShoppingCart() {
   while (contentOfShoppingCar.firstChild) {
     contentOfShoppingCar.removeChild(contentOfShoppingCar.firstChild);
   }
+}
+
+function addItemInLocalStorage(item) {
+  //save array courses in courses
+  let courses = getItemFromLocalStorage();
+  //add item in array courses
+  courses.push(item);
+  //save in localstorage that json to string
+  localStorage.setItem('courses', JSON.stringify(courses));
+}
+
+// helper to get info from localstorage
+function getItemFromLocalStorage() {
+  let courses;
+
+  if (localStorage.getItem('courses') === null) {
+    courses = [];
+  } else {
+    courses = JSON.parse(localStorage.getItem('courses'));
+  }
+  return courses;
 }
