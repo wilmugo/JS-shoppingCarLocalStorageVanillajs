@@ -17,7 +17,7 @@ function eventListeners() {
   //event manager for clear the entire items of shopping cart
   clearCar.addEventListener('click', clearAllItemShoppingCart);
 
-  //load item from localstorage to shopping cart
+  //load item from localstorage to shopping cart when document is ready
   document.addEventListener('DOMContentLoaded', getItemsFromLS);
 }
 
@@ -80,16 +80,37 @@ function addItemToCar(course) {
 
 //romeve item click in X in shopping cart
 function removeItemmToShopCar(e) {
+  let course, courseID;
+  //remove from dom
   if (e.target.classList.contains('remove')) {
     e.target.parentElement.parentElement.remove();
+    course = e.target.parentElement.parentElement;
+    courseID = course.querySelector('a').getAttribute('data-id');
   }
+  //remove from local storage
+  removeItemFromLocalStorage(courseID);
 }
 
+function removeItemFromLocalStorage(id) {
+  //get all items from local storage
+  let courses = getItemFromLocalStorage();
+
+  //find the item in courses and delete
+  courses.forEach((item, index) => {
+    if (item.id === id) {
+      courses.splice(index, 1);
+    }
+  });
+  //add the rest of items in local storage
+  localStorage.setItem('courses', JSON.stringify(courses));
+}
 // remove all items in shopping cart
 function clearAllItemShoppingCart() {
   while (contentOfShoppingCar.firstChild) {
     contentOfShoppingCar.removeChild(contentOfShoppingCar.firstChild);
   }
+  //remove all items for local storage
+  localStorage.clear();
 }
 
 function addItemInLocalStorage(item) {
